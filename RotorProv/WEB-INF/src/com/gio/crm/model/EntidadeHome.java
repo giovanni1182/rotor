@@ -33,9 +33,9 @@ public interface EntidadeHome {
 
 	Collection obterEntidades() throws Exception;
 
-	Collection obterEntidadesInferiores(Entidade entidade) throws Exception;
+	Collection<Entidade> obterEntidadesInferiores(Entidade entidade) throws Exception;
 
-	Collection obterEntidadesPorRaiz() throws Exception;
+	Collection<Entidade> obterEntidadesPorRaiz() throws Exception;
 
 	Collection obterEntidadesPorResponsavel(Usuario usuario) throws Exception;
 

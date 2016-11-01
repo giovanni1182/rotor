@@ -195,7 +195,7 @@ public interface Entidade {
 
 	long obterId();
 
-	Collection obterInferiores() throws Exception;
+	Collection<Entidade> obterInferiores() throws Exception;
 	
 	Collection obterLogs(int pagina) throws Exception;
 

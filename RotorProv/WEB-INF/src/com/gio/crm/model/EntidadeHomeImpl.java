@@ -56,12 +56,11 @@ public class EntidadeHomeImpl extends Home implements EntidadeHome {
 		 return entidade;
 	 }
 
-	protected Collection instanciarEntidades(SQLRow[] rows) throws Exception {
-		UsuarioHome usuarioHome = (UsuarioHome) this.getModelManager().getHome(
-				"UsuarioHome");
-		Usuario usuarioAtual = usuarioHome.obterUsuarioPorUser(this
-				.getModelManager().getUser());
-		ArrayList entidades = new ArrayList();
+	protected Collection<Entidade> instanciarEntidades(SQLRow[] rows) throws Exception
+	{
+		UsuarioHome usuarioHome = (UsuarioHome) this.getModelManager().getHome("UsuarioHome");
+		Usuario usuarioAtual = usuarioHome.obterUsuarioPorUser(this.getModelManager().getUser());
+		ArrayList<Entidade> entidades = new ArrayList<>();
 
 		for (int i = 0; i < rows.length; i++)
 		{
@@ -348,7 +347,7 @@ public class EntidadeHomeImpl extends Home implements EntidadeHome {
 		return this.instanciarEntidades(query.execute());
 	}
 
-	public Collection obterEntidadesInferiores(Entidade entidade) throws Exception
+	public Collection<Entidade> obterEntidadesInferiores(Entidade entidade) throws Exception
 	{
 		if (entidade instanceof Raiz)
 		{
@@ -362,7 +361,7 @@ public class EntidadeHomeImpl extends Home implements EntidadeHome {
 		}
 	}
 
-	public Collection obterEntidadesPorRaiz() throws Exception
+	public Collection<Entidade> obterEntidadesPorRaiz() throws Exception
 	{
 		SQLQuery query = this.getModelManager().createSQLQuery("crm", "select id, classe from entidade where superior=0");
 		return this.instanciarEntidades(query.execute());

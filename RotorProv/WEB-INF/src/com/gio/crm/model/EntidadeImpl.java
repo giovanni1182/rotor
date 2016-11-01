@@ -1729,9 +1729,9 @@ public class EntidadeImpl extends Entity implements Entidade
 		return this.id;
 	}
 
-	public Collection obterInferiores() throws Exception {
-		EntidadeHome home = (EntidadeHome) this.getModelManager().getHome(
-				"EntidadeHome");
+	public Collection<Entidade> obterInferiores() throws Exception 
+	{
+		EntidadeHome home = (EntidadeHome) this.getModelManager().getHome("EntidadeHome");
 		return home.obterEntidadesInferiores(this);
 	}
 	

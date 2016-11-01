@@ -795,23 +795,10 @@ public class AgendaMovimentacaoImpl extends EventoImpl implements
 			validaTotContasNivel3 = this.validarTotatizadorContasNivel3(saldoAtualContaTotalizado.values());
 			erros = validaTotContasNivel3;
 			
-			Collection<String> contasExtraContabeis = new ArrayList<>();
-			contasExtraContabeis.add("9000000001");
-			contasExtraContabeis.add("9000000002");
-			contasExtraContabeis.add("9000000003");
-			contasExtraContabeis.add("9000000004");
-			contasExtraContabeis.add("9000000005");
-			contasExtraContabeis.add("9000000006");
-			contasExtraContabeis.add("9000000007");
-			contasExtraContabeis.add("9000000008");
-			contasExtraContabeis.add("9000000009");
-			contasExtraContabeis.add("9000000010");
-			contasExtraContabeis.add("9000000011");
-			
-			for(String contaStr : contasExtraContabeis)
+			for(Conta c : this.obterContasExtraContabeis(entidadeHome))
 			{
-				if(!this.contas.contains(contaStr))
-					erros.add("Error: 23 - Falta informar la cuenta extracontable "+contaStr);
+				if(!this.contas.contains(c))
+					erros.add("Error: 23 - Falta informar la cuenta extracontable "+c.obterApelido());
 			}
 		
 			if (erros.size() == 0)
@@ -838,7 +825,7 @@ public class AgendaMovimentacaoImpl extends EventoImpl implements
 		}
 		catch (Exception e) 
 		{
-			System.out.println(e.toString());
+			e.printStackTrace();
 			erros.add(e.toString() + " - Linea: " + contador);
 			//file.write(e.toString() + "\r\n");
 			//file.close();
@@ -849,6 +836,31 @@ public class AgendaMovimentacaoImpl extends EventoImpl implements
 			//file.close();
 		
 		return erros;
+	}
+	
+	private Collection<Conta> obterContasExtraContabeis(EntidadeHome home) throws Exception
+	{
+		Collection<Conta> contas = new ArrayList<>();
+		
+		Entidade superiorExtrasContabeis = home.obterEntidadePorApelido("0900000000");
+		
+		SQLQuery query = this.getModelManager().createSQLQuery("crm","select id from entidade where superior = ?");
+		query.addLong(superiorExtrasContabeis.obterId());
+		
+		SQLRow[] rows = query.execute();
+		
+		Entidade e;
+		
+		for(int i = 0 ; i < rows.length ; i++)
+		{
+			e = home.obterEntidadePorId(rows[i].getLong("id"));
+			if(e instanceof Conta)
+			{
+				contas.add((Conta) e);
+			}
+		}
+		
+		return contas;
 	}
 
 	/////////////////// FIM DO MÉTODO PRA VALIDAR O ARQUIVO CONTABIL
